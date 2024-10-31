@@ -16,7 +16,12 @@ namespace TUIO
         private static readonly string train_station_url = "https://api.mapbox.com/geocoding/v5/mapbox.places/train%20station.json";
         public async Task RunAsync(string location, int zoom)
         {
-            await GetMap(location, zoom);
+            int more_zoom = zoom;
+            for (int i = 0; i < 3; i++)
+            {
+                await GetMap(location, more_zoom);
+                more_zoom++;
+            }
             await GetTrafficMap(location, zoom);
             var bus_stations = await FindNearestBusStationsAsync(location);
             await GetTrafficMapForBusStationsAsync(bus_stations, zoom, location);
@@ -50,7 +55,7 @@ namespace TUIO
                     if (response.IsSuccessStatusCode)
                     {
                         byte[] imageBytes = await response.Content.ReadAsByteArrayAsync();
-                        string filePath = "cairo_map.png";
+                        string filePath = "cairo_map_" + zoom + ".png";
                         SaveFileManually(filePath, imageBytes);
                         Console.WriteLine("Cairo map saved successfully at: " + filePath);
                     }
