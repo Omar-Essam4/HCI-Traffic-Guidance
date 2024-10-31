@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using System.Linq;
-using System.Collections.Generic;
 
 namespace TUIO
 {
@@ -19,10 +18,10 @@ namespace TUIO
             await GetMap($"{BaseMapUrl}/streets-v12/static", "map.png", location, zoom);
             await GetMap($"{BaseMapUrl}/traffic-day-v2/static", "traffic_map.png", location, zoom);
 
-            var busStations = await FindNearestStationsAsync(location, "bus station", "FF0000");
+            string[] busStations = await FindNearestStationsAsync(location, "bus station", "FF0000");
             await GetStationMap(busStations, "map_with_bus_stations.png", location, zoom);
 
-            var trainStations = await FindNearestStationsAsync(location, "train station", "0000FF");
+            string[] trainStations = await FindNearestStationsAsync(location, "train station", "0000FF");
             await GetStationMap(trainStations, "map_with_train_stations.png", location, zoom);
         }
 
@@ -46,7 +45,7 @@ namespace TUIO
             }
         }
 
-        private async Task<IEnumerable<string>> FindNearestStationsAsync(string location, string stationType, string color)
+        private async Task<string[]> FindNearestStationsAsync(string location, string stationType, string color)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -57,19 +56,21 @@ namespace TUIO
                     if (response.IsSuccessStatusCode)
                     {
                         var json = JObject.Parse(await response.Content.ReadAsStringAsync());
-                        return json["features"]?.Select(station =>
-                            $"pin-s+{color}({station["geometry"]["coordinates"][0]},{station["geometry"]["coordinates"][1]})");
+                        var stations = json["features"]
+                            .Select(station => $"pin-s+{color}({station["geometry"]["coordinates"][0]},{station["geometry"]["coordinates"][1]})")
+                            .ToArray();
+                        return stations;
                     }
                     else Console.WriteLine($"Error: {response.StatusCode}, {response.ReasonPhrase}");
                 }
                 catch (Exception ex) { Console.WriteLine($"Exception: {ex.Message}"); }
-                return Enumerable.Empty<string>(); // Return an empty list if there was an error
+                return Array.Empty<string>(); // Return an empty array if there was an error
             }
         }
 
-        private async Task GetStationMap(IEnumerable<string> markers, string filePath, string location, int zoom)
+        private async Task GetStationMap(string[] markers, string filePath, string location, int zoom)
         {
-            if (markers == null || !markers.Any()) return;
+            if (markers == null || markers.Length == 0) return;
             using (HttpClient client = new HttpClient())
             {
                 string markerString = string.Join(",", markers);
