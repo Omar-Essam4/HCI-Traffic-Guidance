@@ -28,6 +28,8 @@ using TUIO;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Threading.Tasks;
+using System.Net.Sockets;
+using System.Text;
 
 
 public class TuioDemo : Form , TuioListener
@@ -51,6 +53,8 @@ public class TuioDemo : Form , TuioListener
 		private string backgroundImagePath;
 		private static List<string> main_maps = new List<string>();
 		private int map_index = 0;
+		private int serverPort = 3333;
+		private string serverHost = "127.0.0.1";
 
 
         Font font = new Font("Arial", 10.0f);
@@ -128,7 +132,27 @@ public class TuioDemo : Form , TuioListener
  			}
 
  		}
+		public static void Client_side(string serverHost, int serverPort)
+		{
+			try
+			{
+			    TcpClient serverClient = new TcpClient(serverHost, serverPort);
+			    NetworkStream serverStream = serverClient.GetStream();
+			    byte[] buffer = new byte[1024];
+			    int bytesRead;
 
+			    StringBuilder completeMessage = new StringBuilder();
+			    while ((bytesRead = serverStream.Read(buffer, 0, buffer.Length)) != 0)  // Using Read instead of ReadAsync
+			    {
+			        completeMessage.Append(Encoding.ASCII.GetString(buffer, 0, bytesRead));
+					MessageBox.Show("Logged in Successfully");
+			    }
+			}
+			catch(Exception ex) 
+			{
+				MessageBox.Show("Error");
+			}
+        }
 		private void Form_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			client.removeTuioListener(this);
@@ -242,7 +266,7 @@ public class TuioDemo : Form , TuioListener
                             backgroundImagePath = Path.Combine(Environment.CurrentDirectory, main_maps[map_index]);
                             break;
                         case 1:
-                            objectImagePath = Path.Combine(Environment.CurrentDirectory, "cairo_traffic_map.png");
+                            objectImagePath = Path.Combine(Environment.CurrentDirectory, "car.png");
                             backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "cairo_traffic_map.png");
                             break;
                         case 2:
@@ -398,12 +422,14 @@ public class TuioDemo : Form , TuioListener
 		return true;
     }
     public static async Task Main(String[] argv) {
-	 		int port = 0;			
+	 		int port = 3333;
+			Client_side("127.0.0.1", port);
 			if (!CheckMaps())
 			{
 				MapBoxAPI map_api = new MapBoxAPI();
 				await map_api.RunAsync("31.2399,30.0382", 12);
 			}
+			
 			switch (argv.Length) {
 				case 1:
 					port = int.Parse(argv[0],null);

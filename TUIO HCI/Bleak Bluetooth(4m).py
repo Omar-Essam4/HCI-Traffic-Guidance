@@ -2,7 +2,7 @@ import asyncio
 from bleak import BleakScanner, BleakClient
 
 # Define an RSSI threshold that approximately corresponds to 4 meters
-RSSI_THRESHOLD = -70  # Adjust based on testing in your environment
+RSSI_THRESHOLD = -50  # Adjust based on testing in your environment
 
 async def connect_to_device(device_address):
     async with BleakClient(device_address) as client:
