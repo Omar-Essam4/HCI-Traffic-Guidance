@@ -4,9 +4,11 @@ import socket
 
 # Discover nearby Bluetooth devices and write to a file
 nearby_devices = bluetooth.discover_devices(lookup_names=True)
-with open("bluetooth_devices.txt", "w") as file:
-    for addr, name in nearby_devices:
+print(nearby_devices)
+with open("C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\Bluetooth\\bluetooth_devices.txt", "w") as file:
+    for addr, name in nearby_devices: 
         file.write(f"{name} - {addr}\n")
+    file.close()
 
 # Set up a socket server
 HOST = '127.0.0.1'  # Localhost for testing; use your actual IP if needed
