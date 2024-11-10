@@ -1,32 +1,35 @@
+import asyncio
+from bleak import BleakScanner, BleakClient
 
-import bluetooth
-import socket
+# Path to the file containing allowed MAC addresses
+allowed_devices_file = "C:/Users/mosta/OneDrive/Documents/GitHub/HCI-Traffic-Guidance/Bluetooth/bluetooth_devices.txt"
 
-# Discover nearby Bluetooth devices and write to a file
-nearby_devices = bluetooth.discover_devices(lookup_names=True)
-print(nearby_devices)
-with open("C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\Bluetooth\\bluetooth_devices.txt", "w") as file:
-    for addr, name in nearby_devices: 
-        file.write(f"{name} - {addr}\n")
-    file.close()
+# Load allowed MAC addresses from the text file
+def load_allowed_devices(file_path):
+    with open(file_path, "r") as file:
+        return {line.strip() for line in file}
 
-# Set up a socket server
-HOST = '127.0.0.1'  # Localhost for testing; use your actual IP if needed
-PORT = 3333 
+# Scan for Bluetooth devices
+async def scan_and_connect():
+    allowed_devices = load_allowed_devices(allowed_devices_file)
+    print("Scanning for Bluetooth devices...")
 
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
-    server_socket.bind((HOST, PORT))
-    server_socket.listen()
-    print("Waiting for a connection...")
-
-    conn, addr = server_socket.accept()
-    with conn:
-        print('Connected by', addr)
+    # Perform the scan
+    devices = await BleakScanner.discover()
+    for device in devices:
+        print(f"Found device: {device.name} - {device.address}")
         
-        # Read and send the Bluetooth data
-        with open("bluetooth_devices.txt", "r") as file:
-            data = file.read()
-        
-        # Send data in chunks to avoid issues with buffer limits
-        conn.sendall(data.encode())
-        print("Data sent to client.")
+        # Check if the device is in the allowed list
+        if device.address in allowed_devices:
+            print(f"Device {device.name} ({device.address}) is in the allowed list.")
+            try:
+                async with BleakClient(device.address) as client:
+                    print(f"Connected to {device.name} ({device.address})")
+                    # Here you can add logic to interact with the device if needed
+            except Exception as e:
+                print(f"Failed to connect to {device.name} ({device.address}): {e}")
+        else:
+            print(f"Device {device.name} ({device.address}) is NOT in the allowed list.")
+
+# Run the scanning and connecting function
+asyncio.run(scan_and_connect())
