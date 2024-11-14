@@ -2,7 +2,10 @@ import asyncio
 from bleak import BleakScanner, BleakClient
 
 # Path to the file containing allowed MAC addresses
-allowed_devices_file = "C:/Users/mosta/OneDrive/Documents/GitHub/HCI-Traffic-Guidance/Bluetooth/bluetooth_devices.txt"
+mostafa_path = "C:/Users/mosta/OneDrive/Documents/GitHub/HCI-Traffic-Guidance/Bluetooth/bluetooth_devices.txt"
+omar_path = "C:/Users/omar3/Downloads/Compressed/HCI-Traffic-Guidance/Bluetooth/bluetooth_devices.txt"
+allowed_devices_file = omar_path
+# allowed_devices_file = mostafa_path
 
 # Load allowed MAC addresses from the text file
 def load_allowed_devices(file_path):
@@ -15,7 +18,7 @@ async def scan_and_connect():
     print("Scanning for Bluetooth devices...")
 
     # Perform the scan
-    devices = await BleakScanner.discover()
+    devices = await BleakScanner.discover(timeout=20)
     for device in devices:
         print(f"Found device: {device.name} - {device.address}")
         
