@@ -17,7 +17,7 @@ namespace TUIO
         public async Task RunAsync(string location, int zoom)
         {
             int more_zoom = zoom;
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
                 await GetMap(location, more_zoom);
                 more_zoom++;
@@ -160,7 +160,7 @@ namespace TUIO
             {
                 try
                 {
-                    string markers = string.Join(",", stations.Select(station => $"pin-s+FF0000({station["geometry"]["coordinates"][0]},{station["geometry"]["coordinates"][1]})"));
+                    string markers = string.Join(",", stations.Select(station => $"pin-s+00FF00({station["geometry"]["coordinates"][0]},{station["geometry"]["coordinates"][1]})"));
                     string requestUrl = $"{mapbox_url}/{markers}/{location},{zoom}/1200x1200@2x?access_token={AccessToken}";
                     HttpResponseMessage response = await client.GetAsync(requestUrl);
                     if (response.IsSuccessStatusCode)

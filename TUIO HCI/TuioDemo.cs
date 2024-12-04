@@ -73,6 +73,7 @@ public class TuioDemo : Form , TuioListener
 			height = window_height;
 
 			this.ClientSize = new System.Drawing.Size(width, height);
+			//this.WindowState = FormWindowState.Maximized;
 			this.Name = "TuioDemo";
 			this.Text = "TuioDemo";
 			
@@ -116,7 +117,7 @@ public class TuioDemo : Form , TuioListener
 					width = window_width;
 					height = window_height;
 
-		 			this.FormBorderStyle = FormBorderStyle.Sizable;
+					this.FormBorderStyle = FormBorderStyle.Sizable;
 		 			this.Left = window_left;
 		 			this.Top = window_top;
 		 			this.Width = window_width;
@@ -150,7 +151,7 @@ public class TuioDemo : Form , TuioListener
 			}
 			catch(Exception ex) 
 			{
-				MessageBox.Show("Error");
+				//MessageBox.Show("Error");
 			}
         }
 		private void Form_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -258,23 +259,23 @@ public class TuioDemo : Form , TuioListener
 					foreach (TuioObject tobj in objectList.Values) {
 						int ox = tobj.getScreenX(width);
 						int oy = tobj.getScreenY(height);
-						int size = height / 10;
+						int size = height / 12;
                     switch (tobj.SymbolID)
                     {
                         case 0:
-                            objectImagePath = Path.Combine(Environment.CurrentDirectory, "car.png");
+                            objectImagePath = Path.Combine(Environment.CurrentDirectory, "map.png");
                             backgroundImagePath = Path.Combine(Environment.CurrentDirectory, main_maps[map_index]);
                             break;
                         case 1:
-                            objectImagePath = Path.Combine(Environment.CurrentDirectory, "car.png");
+                            objectImagePath = Path.Combine(Environment.CurrentDirectory, "car2.png");
                             backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "cairo_traffic_map.png");
                             break;
                         case 2:
-                            objectImagePath = Path.Combine(Environment.CurrentDirectory, "map_cairo_with_bus_stations.png");
+                            objectImagePath = Path.Combine(Environment.CurrentDirectory, "bus.png");
                             backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "map_cairo_with_bus_stations.png");
                             break;
 						case 3:
-							objectImagePath = Path.Combine(Environment.CurrentDirectory, "map_cairo_with_train_stations.png");
+							objectImagePath = Path.Combine(Environment.CurrentDirectory, "train.png");
                             backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "map_cairo_with_train_stations.png");
 							break;
                         default:
@@ -311,18 +312,22 @@ public class TuioDemo : Form , TuioListener
                                 g.TranslateTransform(ox, oy);
                                 g.RotateTransform((float)(tobj.Angle / Math.PI * 180.0f));
                                 g.TranslateTransform(-ox, -oy);
-								Console.WriteLine(tobj.Angle / Math.PI * 180.0f);
+								//Console.WriteLine(tobj.Angle / Math.PI * 180.0f);
 								double tui_angle = tobj.Angle / Math.PI * 180.0f;
 								if (true)
 								{
 									if (tui_angle > 45 && tui_angle <= 90 && map_index < 1)
 										map_index++;
-									if (tui_angle > 90 && map_index < 2)
+									if (tui_angle > 90 && tui_angle <= 135 && map_index < 2)
 										map_index++;
+                                    if (tui_angle > 135 && map_index < 3)
+                                        map_index++;
 
-									if (map_index == 2 && tui_angle >= 45 && tui_angle < 90)
+                                    if (map_index == 3 && tui_angle >= 90 && tui_angle < 135)
+                                        map_index--;
+                                    if (map_index == 2 && tui_angle >= 45 && tui_angle < 90)
 										map_index--;
-                                    if (map_index == 2 && tui_angle < 45)
+                                    if (map_index == 3 && tui_angle < 45)
                                         map_index = 0;
                                     if (map_index == 1 && tui_angle >= 0 && tui_angle < 45)
 										map_index--;
@@ -339,7 +344,7 @@ public class TuioDemo : Form , TuioListener
                         {
                             Console.WriteLine($"Object image not found: {objectImagePath}");
                             // Fall back to drawing a rectangle
-                            g.FillRectangle(objBrush, new Rectangle(ox - size / 2, oy - size / 2, size, size));
+                            g.FillRectangle(objBrush, new Rectangle(ox - size / 2, oy - size / 2, size , size));
                         }
                     }
 					catch
@@ -351,7 +356,7 @@ public class TuioDemo : Form , TuioListener
 						g.RotateTransform((float)(tobj.Angle / Math.PI * 180.0f));
 						g.TranslateTransform(-ox, -oy);
 
-						g.FillRectangle(objBrush, new Rectangle(ox - size / 2, oy - size / 2, size, size));
+						//g.FillRectangle(objBrush, new Rectangle(ox - size / 2, oy - size / 2, size, size));
 
 						g.TranslateTransform(ox, oy);
 						g.RotateTransform(-1 * (float)(tobj.Angle / Math.PI * 180.0f));
@@ -370,7 +375,7 @@ public class TuioDemo : Form , TuioListener
 						int by = tblb.getScreenY(height);
 						float bw = tblb.Width*width;
 						float bh = tblb.Height*height;	
-						Image cairo_bg = Image.FromFile("cairo_map.png");
+						Image cairo_bg = Image.FromFile("car2.png");
 						Brush bg_brush = new TextureBrush(cairo_bg);
 
 						g.TranslateTransform(bx, by);
@@ -413,7 +418,8 @@ public class TuioDemo : Form , TuioListener
 		main_maps.Add("cairo_map_12.png");
         main_maps.Add("cairo_map_13.png");
         main_maps.Add("cairo_map_14.png");
-        string[] api_images = { "cairo_map_12.png", "cairo_map_13.png", "cairo_map_14.png", "cairo_traffic_map.png", "map_cairo_with_bus_stations.png", "map_cairo_with_train_stations.png"};
+        main_maps.Add("cairo_map_15.png");
+        string[] api_images = { "cairo_map_12.png", "cairo_map_13.png", "cairo_map_14.png","cairo_map_15.png" ,"cairo_traffic_map.png", "map_cairo_with_bus_stations.png", "map_cairo_with_train_stations.png"};
 		for(int i = 0; i < api_images.Length; i++)
 		{
 			if (!File.Exists(api_images[i]))
