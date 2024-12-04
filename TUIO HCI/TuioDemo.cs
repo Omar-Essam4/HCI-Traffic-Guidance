@@ -30,6 +30,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Text;
+using System.Diagnostics.Eventing.Reader;
 
 
 public class TuioDemo : Form , TuioListener
@@ -46,6 +47,7 @@ public class TuioDemo : Form , TuioListener
 		private int window_top = 0;
 		private int screen_width = Screen.PrimaryScreen.Bounds.Width;
 		private int screen_height = Screen.PrimaryScreen.Bounds.Height;
+		private string login = "Logged in Successfully";
 
 		private bool fullscreen;
 		private bool verbose;
@@ -58,6 +60,7 @@ public class TuioDemo : Form , TuioListener
 
 
         Font font = new Font("Arial", 10.0f);
+		Font font2 = new Font("Arial", 15.0f);
 		SolidBrush fntBrush = new SolidBrush(Color.White);
 		SolidBrush bgrBrush = new SolidBrush(Color.FromArgb(0,0,64));
 		SolidBrush curBrush = new SolidBrush(Color.FromArgb(192, 0, 192));
@@ -230,6 +233,7 @@ public class TuioDemo : Form , TuioListener
 		{
 			Bitmap img = new Bitmap("home.jpg");
             g.DrawImage(img, 0, 0, this.ClientSize.Width, this.ClientSize.Height);
+            g.DrawString(login, font2, fntBrush, new PointF(0, 0));
         }
 		catch
 		{
@@ -434,8 +438,7 @@ public class TuioDemo : Form , TuioListener
 			{
 				MapBoxAPI map_api = new MapBoxAPI();
 				await map_api.RunAsync("31.2399,30.0382", 12);
-			}
-			
+			}			
 			switch (argv.Length) {
 				case 1:
 					port = int.Parse(argv[0],null);
@@ -451,5 +454,5 @@ public class TuioDemo : Form , TuioListener
 			}			
 			TuioDemo app = new TuioDemo(port);
 			Application.Run(app);
-		}
+    }
 	}

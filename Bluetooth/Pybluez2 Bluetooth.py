@@ -1,5 +1,5 @@
-import asyncio
-from bleak import BleakScanner, BleakClient
+import bluetooth
+import socket
 
 # Path to the file containing allowed MAC addresses
 mostafa_path = "C:/Users/mosta/OneDrive/Documents/GitHub/HCI-Traffic-Guidance/Bluetooth/bluetooth_devices.txt"
@@ -12,27 +12,39 @@ def load_allowed_devices(file_path):
     with open(file_path, "r") as file:
         return {line.strip() for line in file}
 
-# Scan for Bluetooth devices
-async def scan_and_connect():
+# Scan for Bluetooth devices and connect to allowed ones
+def scan_and_connect():
     allowed_devices = load_allowed_devices(allowed_devices_file)
     print("Scanning for Bluetooth devices...")
-
-    # Perform the scan
-    devices = await BleakScanner.discover(timeout=20)
-    for device in devices:
-        print(f"Found device: {device.name} - {device.address}")
-        
-        # Check if the device is in the allowed list
-        if device.address in allowed_devices:
-            print(f"Device {device.name} ({device.address}) is in the allowed list.")
-            try:
-                async with BleakClient(device.address) as client:
-                    print(f"Connected to {device.name} ({device.address})")
-                    # Here you can add logic to interact with the device if needed
-            except Exception as e:
-                print(f"Failed to connect to {device.name} ({device.address}): {e}")
-        else:
-            print(f"Device {device.name} ({device.address}) is NOT in the allowed list.")
+    
+    # Discover nearby devices
+    devices = bluetooth.discover_devices(duration=20, lookup_names=True, flush_cache=True, lookup_class=False)
+    
+    for addr, name in devices:
+        try:
+            print(f"Found device: {name} - {addr}")
+            
+            # Check if the device is in the allowed list
+            if addr in allowed_devices:
+                print(f"Device {name} ({addr}) is in the allowed list.")
+                
+                mySocket = socket.socket()
+                def connect_socket():
+                    global conn,addr
+                    mySocket.bind(('127.0.0.1', 3333))
+                    mySocket.listen(5)
+                    conn , addr = mySocket.accept()
+                    print("device connected")
+                    
+                connect_socket()
+                
+                msg =bytes("device connected", 'utf-8')
+                conn.send(msg)
+                
+            else:
+                print(f"Device {name} ({addr}) is NOT in the allowed list.")
+        except Exception as e:
+            print(f"Error while processing device {addr}: {e}")
 
 # Run the scanning and connecting function
-asyncio.run(scan_and_connect())
+scan_and_connect()
