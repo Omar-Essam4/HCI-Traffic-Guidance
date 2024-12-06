@@ -136,7 +136,7 @@ public class TuioDemo : Form , TuioListener
  			}
 
  		}
-		public static void Client_side(string serverHost, int serverPort)
+		public static async void Client_side(string serverHost, int serverPort)
 		{
 			try
 			{
@@ -149,8 +149,8 @@ public class TuioDemo : Form , TuioListener
 			    while ((bytesRead = serverStream.Read(buffer, 0, buffer.Length)) != 0)  // Using Read instead of ReadAsync
 			    {
 			        completeMessage.Append(Encoding.ASCII.GetString(buffer, 0, bytesRead));
-					MessageBox.Show("Logged in Successfully");
-			    }
+					Console.WriteLine("Logged in Successfully");
+			    }				
 			}
 			catch(Exception ex) 
 			{

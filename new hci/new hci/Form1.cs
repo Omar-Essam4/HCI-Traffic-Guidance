@@ -10,10 +10,11 @@ namespace new_hci
         Image []map;
         public Form1()
         {
-            this.WindowState = FormWindowState.Maximized;
+            //this.WindowState = FormWindowState.Maximized;
+            this.ClientSize = new Size(1200, 1200);
            
-                 this.Paint += new PaintEventHandler(Form1_Paint);
-            bg = "traffic";
+            this.Paint += new PaintEventHandler(Form1_Paint);
+            bg = "home";
             map=new Image[]
             {
                     Image.FromFile("cairo_map.png"),
@@ -26,6 +27,10 @@ namespace new_hci
         void Form1_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
+            if (bg == "home")
+            {
+                img = Image.FromFile("home.jpg");
+            }
             if (bg == "map")
             {
                 img = Image.FromFile("cairo_map.png");
@@ -38,7 +43,7 @@ namespace new_hci
             }
             else if(bg=="zoomout"&&f>0)
             {
-                     f--;
+                    f--;
                     img = map[f];
             }
             if(bg=="traffic")

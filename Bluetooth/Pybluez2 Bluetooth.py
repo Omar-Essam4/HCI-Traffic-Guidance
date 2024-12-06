@@ -38,7 +38,7 @@ def scan_and_connect():
                     
                 connect_socket()
                 
-                msg =bytes("device connected", 'utf-8')
+                msg =bytes("welcome user", 'utf-8')
                 conn.send(msg)
                 
             else:

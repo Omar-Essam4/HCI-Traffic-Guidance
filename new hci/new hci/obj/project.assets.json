@@ -8,19 +8,19 @@
     "net6.0-windows7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\EGYPT_LAPTOP\\.nuget\\packages\\": {}
+    "C:\\Users\\omar3\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\EGYPT_LAPTOP\\source\\repos\\new hci\\new hci\\new hci.csproj",
+      "projectUniqueName": "C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\new hci\\new hci\\new hci.csproj",
       "projectName": "new hci",
-      "projectPath": "C:\\Users\\EGYPT_LAPTOP\\source\\repos\\new hci\\new hci\\new hci.csproj",
-      "packagesPath": "C:\\Users\\EGYPT_LAPTOP\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\EGYPT_LAPTOP\\source\\repos\\new hci\\new hci\\obj\\",
+      "projectPath": "C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\new hci\\new hci\\new hci.csproj",
+      "packagesPath": "C:\\Users\\omar3\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\new hci\\new hci\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\EGYPT_LAPTOP\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\omar3\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -40,6 +40,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -64,7 +69,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
       }
     }
   }
