@@ -1,3 +1,5 @@
+using Microsoft.VisualBasic.Logging;
+using System.Drawing;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
@@ -17,6 +19,7 @@ namespace new_hci
         private NetworkStream stream;
         string curr_object = "none";
         string prev_object = "";
+        bool loggedin = false;
         public Form1()
         {
             //this.WindowState = FormWindowState.Maximized;
@@ -37,7 +40,10 @@ namespace new_hci
         {
             bool loggedin = await Login();
             if (loggedin)
+            {
+                loggedin = true;
                 await Task.Run(() => recieve_object());
+            }
             else
                 Console.WriteLine("Failed to login");
         }
@@ -130,6 +136,8 @@ namespace new_hci
             }
 
             g.DrawImage(img, 10, 10, this.ClientSize.Width, this.ClientSize.Height);
+            if(loggedin && f == 0)
+                g.DrawString("Logged in Successfully", new Font("Arial", 15.0f), new SolidBrush(Color.White), new PointF(0, 0));
         }
     }
 }
