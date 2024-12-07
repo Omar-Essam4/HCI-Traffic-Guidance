@@ -15,8 +15,8 @@ namespace new_hci
         int server_port = 3333;
         string server_host = "127.0.0.1";
         private NetworkStream stream;
-        string gesture = "none";
-        string prev_gesture = "";
+        string curr_object = "none";
+        string prev_object = "";
         public Form1()
         {
             //this.WindowState = FormWindowState.Maximized;
@@ -68,9 +68,9 @@ namespace new_hci
                     int bytesReceived = stream.Read(receiveBuffer, 0, receiveBuffer.Length);
                     if (bytesReceived > 0)
                     {
-                        gesture = Encoding.UTF8.GetString(receiveBuffer, 0, bytesReceived).Trim();
-                        Console.WriteLine("Gesture recieved");
-                        updatebg(gesture);
+                        curr_object = Encoding.UTF8.GetString(receiveBuffer, 0, bytesReceived).Trim();
+                        Console.WriteLine("object recieved");
+                        updatebg(curr_object);
                     }
                     Task.Delay(700).Wait();
                 }
@@ -81,15 +81,15 @@ namespace new_hci
                 bg = "none";
             }
         }
-        private void updatebg(string gesture)
+        private void updatebg(string curr_object)
         {
-            if (gesture != prev_gesture)
+            if (curr_object != prev_object)
             {
-                // Update the background based on the gesture
+                // Update the background based on the object
                 this.Invoke((MethodInvoker)delegate
                 {
-                    prev_gesture = gesture;
-                    bg = gesture;
+                    prev_object = curr_object;
+                    bg = curr_object;
                     this.Invalidate(); // Trigger repaint
                 });
             }
