@@ -20,6 +20,7 @@ namespace new_hci
         string curr_object = "none";
         string prev_object = "";
         bool loggedin = false;
+        string user = "";
         public Form1()
         {
             //this.WindowState = FormWindowState.Maximized;
@@ -38,11 +39,11 @@ namespace new_hci
 
         private async void Form1_Load(object? sender, EventArgs e)
         {
-            bool loggedin = await Login();
+            loggedin = await Login();
             if (loggedin)
             {
-                loggedin = true;
                 await Task.Run(() => recieve_object());
+                Console.WriteLine("Connected");
             }
             else
                 Console.WriteLine("Failed to login");
@@ -136,8 +137,8 @@ namespace new_hci
             }
 
             g.DrawImage(img, 10, 10, this.ClientSize.Width, this.ClientSize.Height);
-            if(loggedin && f == 0)
-                g.DrawString("Logged in Successfully", new Font("Arial", 15.0f), new SolidBrush(Color.White), new PointF(0, 0));
+            if(loggedin && (bg == "omar" || bg == "abdelellah" || bg == "mostafa" || bg == "abdelrahman"))
+                g.DrawString("Logged in Successfully", new Font("Arial", 17.0f), new SolidBrush(Color.White), new PointF(5, 5));
         }
     }
 }

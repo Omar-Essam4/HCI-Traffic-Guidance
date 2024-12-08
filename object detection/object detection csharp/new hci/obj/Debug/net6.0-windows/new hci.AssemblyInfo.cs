@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("new hci")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9502ced6e7c33eff87a9b537d5a2f64428cf5eac")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a6bb7e1d9f84447e569ade490733cc20298850ee")]
 [assembly: System.Reflection.AssemblyProductAttribute("new hci")]
 [assembly: System.Reflection.AssemblyTitleAttribute("new hci")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
