@@ -37,6 +37,7 @@ face_locations = []
 face_encodings = []
 face_names = []
 process_this_frame = True
+user_recognised = False
 
 mySocket = socket.socket()   
 def connect_socket():
@@ -82,21 +83,21 @@ while True:
 
             face_names.append(name)
 
-            if prevname != name:
+            if prevname != name and not user_recognised:
                 msg = bytes(name.lower(), 'utf-8')
                 try:
                     conn.send(msg)
                     print(name)
                 except Exception as e:
                     print(f"Error sending message: {e}")
+                prevname = name
+                user_recognised = True
 
-            prevname = name
-
-            # Log recognized faces
-            if name != "None":
-                print(f"Hello, {name}! You have been recognized.")
-                with open("log.txt", "a") as log_file:
-                    log_file.write(f"{name} recognized at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                # Log recognized faces
+                if name != "None":
+                    print(f"Hello, {name}! You have been recognized.")
+                    with open("log.txt", "a") as log_file:
+                        log_file.write(f"{name} recognized at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 
     process_this_frame = not process_this_frame
 

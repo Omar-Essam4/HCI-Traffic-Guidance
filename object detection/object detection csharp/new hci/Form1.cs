@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 namespace new_hci
 {
@@ -15,12 +16,14 @@ namespace new_hci
         Image img;
         Image []map;
         int server_port = 3333;
+        int server_port2 = 3334;
         string server_host = "127.0.0.1";
         private NetworkStream stream;
         string curr_object = "none";
         string prev_object = "";
         bool loggedin = false;
         string user = "";
+        Thread connection;
         public Form1()
         {
             //this.WindowState = FormWindowState.Maximized;
@@ -39,17 +42,41 @@ namespace new_hci
 
         private async void Form1_Load(object? sender, EventArgs e)
         {
-            loggedin = await Login();
-            if (loggedin)
+            establish_connection(server_port);
+        }
+        private void establish_connection(int server_port)
+        {
+            connection = new Thread(() =>
             {
-                await Task.Run(() => recieve_object());
-                Console.WriteLine("Connected");
+                try
+                {
+                    wait_connection(server_port).Wait(); // Wait synchronously for the async task to complete
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error in connection thread: {ex.Message}");
+                }
+            });
+
+            connection.IsBackground = true; // Ensures the thread stops when the application closes
+            connection.Start();
+        }
+        private async Task wait_connection(int server_port)
+        {
+            while (!loggedin)
+            {
+                loggedin = await Login(server_port);
+                if (loggedin)
+                {
+                    await Task.Run(() => recieve_object());
+                    Console.WriteLine("Connected");
+                }
+                else
+                    Console.WriteLine("Failed to login");
             }
-            else
-                Console.WriteLine("Failed to login");
         }
 
-        private async Task<bool> Login()
+        private async Task<bool> Login(int server_port)
         {
             try
             {
@@ -137,8 +164,13 @@ namespace new_hci
             }
 
             g.DrawImage(img, 10, 10, this.ClientSize.Width, this.ClientSize.Height);
-            if(loggedin && (bg == "omar" || bg == "abdelellah" || bg == "mostafa" || bg == "abdelrahman"))
-                g.DrawString("Logged in Successfully", new Font("Arial", 17.0f), new SolidBrush(Color.White), new PointF(5, 5));
+            if (loggedin && (bg == "omar" || bg == "abdelellah" || bg == "mostafa" || bg == "abdelrahman"))
+            {
+                g.DrawString("Logged in Successfully", new Font("Arial", 20.0f), new SolidBrush(Color.White), new PointF(5, 15));
+                g.DrawString("Welcome " + bg, new Font("Arial", 20.0f), new SolidBrush(Color.White), new PointF(5, 50));
+                loggedin = false;
+                establish_connection(server_port2);
+            }
         }
     }
 }
