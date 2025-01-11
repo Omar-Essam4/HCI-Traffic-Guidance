@@ -85,15 +85,25 @@ namespace new_hci
         {
             if (gesture != prev_gesture)
             {
-                // Update the background based on the gesture
                 this.Invoke((MethodInvoker)delegate
                 {
                     prev_gesture = gesture;
-                    bg = gesture;
+
+           
+                    if (gesture == "none")
+                    {
+                        bg = "home"; 
+                    }
+                    else
+                    {
+                        bg = gesture;
+                    }
+
                     this.Invalidate(); // Trigger repaint
                 });
             }
         }
+
         void Form1_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -110,6 +120,10 @@ namespace new_hci
             {
                 f++;
                 img = map[f];
+            }
+            if (bg == "home" || bg == "none")
+            {
+                img = Image.FromFile("home.jpg");
             }
             else if(bg=="zoomout"&&f>0)
             {

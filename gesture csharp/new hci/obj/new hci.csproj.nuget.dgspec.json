@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\new hci\\new hci\\new hci.csproj": {}
+    "C:\\Users\\mosta\\OneDrive\\Documents\\GitHub\\HCI-Traffic-Guidance\\gesture csharp\\new hci\\new hci.csproj": {}
   },
   "projects": {
-    "C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\new hci\\new hci\\new hci.csproj": {
+    "C:\\Users\\mosta\\OneDrive\\Documents\\GitHub\\HCI-Traffic-Guidance\\gesture csharp\\new hci\\new hci.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\new hci\\new hci\\new hci.csproj",
+        "projectUniqueName": "C:\\Users\\mosta\\OneDrive\\Documents\\GitHub\\HCI-Traffic-Guidance\\gesture csharp\\new hci\\new hci.csproj",
         "projectName": "new hci",
-        "projectPath": "C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\new hci\\new hci\\new hci.csproj",
-        "packagesPath": "C:\\Users\\omar3\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\new hci\\new hci\\obj\\",
+        "projectPath": "C:\\Users\\mosta\\OneDrive\\Documents\\GitHub\\HCI-Traffic-Guidance\\gesture csharp\\new hci\\new hci.csproj",
+        "packagesPath": "C:\\Users\\mosta\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\mosta\\OneDrive\\Documents\\GitHub\\HCI-Traffic-Guidance\\gesture csharp\\new hci\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\omar3\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mosta\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
