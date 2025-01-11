@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{83F18314-A320-4148-A5A5-D8FD091FC407}|TUIO_DEMO.csproj|solutionrelative:tuiodemo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{83F18314-A320-4148-A5A5-D8FD091FC407}|TUIO_DEMO.csproj|C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\TUIO HCI\\api.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{83F18314-A320-4148-A5A5-D8FD091FC407}|TUIO_DEMO.csproj|solutionrelative:api.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{83F18314-A320-4148-A5A5-D8FD091FC407}|TUIO_DEMO.csproj|c:\\users\\omar3\\downloads\\compressed\\hci-traffic-guidance\\tuio hci\\tuiodemo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{83F18314-A320-4148-A5A5-D8FD091FC407}|TUIO_DEMO.csproj|solutionrelative:tuiodemo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{83F18314-A320-4148-A5A5-D8FD091FC407}|TUIO_DEMO.csproj|C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\TUIO HCI\\tuiodemo.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{83F18314-A320-4148-A5A5-D8FD091FC407}|TUIO_DEMO.csproj|solutionrelative:tuiodemo.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{83F18314-A320-4148-A5A5-D8FD091FC407}|TUIO_DEMO.csproj|c:\\users\\omar3\\downloads\\compressed\\hci-traffic-guidance\\tuio hci\\api.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{83F18314-A320-4148-A5A5-D8FD091FC407}|TUIO_DEMO.csproj|solutionrelative:api.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,32 +22,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "api.cs",
-              "DocumentMoniker": "C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\TUIO HCI\\api.cs",
-              "RelativeDocumentMoniker": "api.cs",
-              "ToolTip": "C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\TUIO HCI\\api.cs",
-              "RelativeToolTip": "api.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAYwKYAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-23T18:35:18.338Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "TuioDemo.Designer.cs",
-              "DocumentMoniker": "C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\TUIO HCI\\TuioDemo.Designer.cs",
-              "RelativeDocumentMoniker": "TuioDemo.Designer.cs",
-              "ToolTip": "C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\TUIO HCI\\TuioDemo.Designer.cs",
-              "RelativeToolTip": "TuioDemo.Designer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-23T19:48:16.307Z"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -56,9 +32,34 @@
               "RelativeDocumentMoniker": "TuioDemo.cs",
               "ToolTip": "C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\TUIO HCI\\TuioDemo.cs",
               "RelativeToolTip": "TuioDemo.cs",
-              "ViewState": "AgIAACUAAAAAAAAAAAAtwD8AAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAIoAAAAAAAAAAAAAAJsAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-23T18:30:26.502Z",
+              "WhenOpened": "2025-01-11T17:32:44.803Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TuioDemo.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\TUIO HCI\\TuioDemo.cs",
+              "RelativeDocumentMoniker": "TuioDemo.cs",
+              "ToolTip": "C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\TUIO HCI\\TuioDemo.cs [Design]",
+              "RelativeToolTip": "TuioDemo.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-11T17:32:38.8Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "api.cs",
+              "DocumentMoniker": "C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\TUIO HCI\\api.cs",
+              "RelativeDocumentMoniker": "api.cs",
+              "ToolTip": "C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\TUIO HCI\\api.cs",
+              "RelativeToolTip": "api.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-11T17:32:34.621Z",
               "EditorCaption": ""
             }
           ]

@@ -47,7 +47,6 @@ public class TuioDemo : Form , TuioListener
 		private int window_top = 0;
 		private int screen_width = Screen.PrimaryScreen.Bounds.Width;
 		private int screen_height = Screen.PrimaryScreen.Bounds.Height;
-		private string login = "Logged in Successfully";
 
 		private bool fullscreen;
 		private bool verbose;
@@ -96,6 +95,7 @@ public class TuioDemo : Form , TuioListener
 
 			client.connect();
 		}
+		private static string login = "Please login";
 
 		private void Form_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e) {
 
@@ -148,9 +148,14 @@ public class TuioDemo : Form , TuioListener
 			    StringBuilder completeMessage = new StringBuilder();
 			    while ((bytesRead = serverStream.Read(buffer, 0, buffer.Length)) != 0)  // Using Read instead of ReadAsync
 			    {
+
 			        completeMessage.Append(Encoding.ASCII.GetString(buffer, 0, bytesRead));
+					login = "Logged in Successfully Welcome " + completeMessage.ToString();
 					Console.WriteLine("Logged in Successfully");
-			    }				
+					MessageBox.Show("Logged in Successfully welcome " + completeMessage.ToString());
+					TuioDemo app = Application.OpenForms["TuioDemo"] as TuioDemo;
+					app?.Invalidate();
+				}				
 			}
 			catch(Exception ex) 
 			{
