@@ -340,8 +340,7 @@ public class TuioDemo : Form , TuioListener
                                         map_index = 0;
                                     if (map_index == 1 && tui_angle >= 0 && tui_angle < 45)
 										map_index--;
-								}						
-
+								}
                                 // Draw the rotated object
                                 g.DrawImage(objectImage, new Rectangle(ox - size / 2, oy - size / 2, size, size));
 
@@ -351,6 +350,7 @@ public class TuioDemo : Form , TuioListener
                         }
                         else
                         {
+                            Console.WriteLine(tobj.Angle);
                             Console.WriteLine($"Object image not found: {objectImagePath}");
                             // Fall back to drawing a rectangle
                             g.FillRectangle(objBrush, new Rectangle(ox - size / 2, oy - size / 2, size , size));
