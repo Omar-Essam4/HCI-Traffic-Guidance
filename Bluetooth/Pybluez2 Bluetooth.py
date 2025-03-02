@@ -1,9 +1,10 @@
-import bluetooth
+import asyncio
+from bleak import BleakScanner
 import socket
 
 # Path to the file containing allowed MAC addresses
-mostafa_path = "C:/Users/mosta/OneDrive/Documents/GitHub/HCI-Traffic-Guidance/Bluetooth/bluetooth_devices.txt"
-omar_path = "C:/Users/omar3/Downloads/Compressed/HCI-Traffic-Guidance/Bluetooth/bluetooth_devices.txt"
+#mostafa_path = "C:/Users/mosta/OneDrive/Documents/GitHub/HCI-Traffic-Guidance/Bluetooth/bluetooth_devices.txt"
+omar_path = "C:/Users/maraw/OneDrive/Documents/GitHub/HCI-Traffic-Guidance/Bluetooth/bluetooth_devices.txt"
 allowed_devices_file = omar_path
 # allowed_devices_file = mostafa_path
 
@@ -17,43 +18,45 @@ def connect_socket():
     mySocket.bind(('127.0.0.1', 3333))
     mySocket.listen(5)
     print("Waiting for client to connect")   
-    conn , addr = mySocket.accept()
-    print(f"Client successfully connected from 127.0.0.1, 3333")
+    conn, addr = mySocket.accept()
+    print(f"Client successfully connected from {addr}")
     return conn
 
-# Scan for Bluetooth devices and connect to allowed ones
-def scan_and_connect():
+# Scan for Bluetooth devices asynchronously
+async def scan_and_connect():
     allowed_devices = load_allowed_devices(allowed_devices_file)
     print("Scanning for Bluetooth devices...")
-    
-    # Discover nearby devices
-    devices = bluetooth.discover_devices(duration=5, lookup_names=True, flush_cache=True, lookup_class=False)
-    
-    for addr, name in devices:
+
+    # Discover nearby Bluetooth devices
+    devices = await BleakScanner.discover()
+
+    for device in devices:
+        addr, name = device.address, device.name
         try:
-            
-            # Check if the device is in the allowed list
             if addr in allowed_devices:
                 print(f"Found device: {name} - {addr}")
-                print(f"Device {name} ({addr}) is in the allowed list.")
- 
+                print(f"Device ({addr}) is in the allowed list.")
+
                 conn = connect_socket()
-                if addr == "D6:E7:0B:F0:0F:D4":
-                    msg =bytes("abdelellah", 'utf-8')
+                msg = b"default_message"  # Default message
+
+                if addr == "BC:10:7B:F3:75:4F":
+                    msg = b"MARAWAN"
                 elif addr == "5C:10:C5:FB:A8:98":
-                    msg = bytes("omar", 'utf-8')
+                    msg = b"omar"
+
                 conn.send(msg)
-                print("message sent successfully")
-                conn.close() 
+                print("Message sent successfully")
+                conn.close()
                 break
-                
             else:
                 print(f"({addr}) is NOT in the allowed list.")
         except Exception as e:
             print(f"Error while processing device {addr}: {e}")
 
-# Run the scanning and connecting function
-scan_and_connect()
+# Run the Bluetooth scanning
+asyncio.run(scan_and_connect())
+
 
 
 # import bluetooth

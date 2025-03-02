@@ -236,7 +236,7 @@ public class TuioDemo : Form , TuioListener
 			g.FillRectangle(bgrBrush, new Rectangle(0,0,width,height));
 		try
 		{
-			Bitmap img = new Bitmap("home.jpg");
+			Bitmap img = new Bitmap("home.jpeg");
             g.DrawImage(img, 0, 0, this.ClientSize.Width, this.ClientSize.Height);
             g.DrawString(login, font2, fntBrush, new PointF(0, 0));
         }
@@ -272,20 +272,20 @@ public class TuioDemo : Form , TuioListener
                     switch (tobj.SymbolID)
                     {
                         case 0:
-                            objectImagePath = Path.Combine(Environment.CurrentDirectory, "map.png");
+                            objectImagePath = Path.Combine(Environment.CurrentDirectory, "map.jpeg");
                             backgroundImagePath = Path.Combine(Environment.CurrentDirectory, main_maps[map_index]);
                             break;
                         case 1:
-                            objectImagePath = Path.Combine(Environment.CurrentDirectory, "car2.png");
+                            objectImagePath = Path.Combine(Environment.CurrentDirectory, "car2.jpeg");
                             backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "cairo_traffic_map.png");
                             break;
                         case 2:
-                            objectImagePath = Path.Combine(Environment.CurrentDirectory, "bus.png");
-                            backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "map_cairo_with_bus_stations.png");
+                            objectImagePath = Path.Combine(Environment.CurrentDirectory, "bus.jpeg");
+                            backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "map_cairo_with_bus_stations.jpeg");
                             break;
 						case 3:
-							objectImagePath = Path.Combine(Environment.CurrentDirectory, "train.png");
-                            backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "map_cairo_with_train_stations.png");
+							objectImagePath = Path.Combine(Environment.CurrentDirectory, "train.jpeg");
+                            backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "map_cairo_with_train_stations.jpeg");
 							break;
                         default:
                             // Use default rectangle for other IDs
@@ -428,7 +428,7 @@ public class TuioDemo : Form , TuioListener
         main_maps.Add("cairo_map_13.png");
         main_maps.Add("cairo_map_14.png");
         main_maps.Add("cairo_map_15.png");
-        string[] api_images = { "cairo_map_12.png", "cairo_map_13.png", "cairo_map_14.png","cairo_map_15.png" ,"cairo_traffic_map.png", "map_cairo_with_bus_stations.png", "map_cairo_with_train_stations.png"};
+        string[] api_images = { "cairo_map_12.png", "cairo_map_13.png", "cairo_map_14.png","cairo_map_15.png" ,"cairo_traffic_map.png", "map_cairo_with_bus_stations.jpeg", "map_cairo_with_train_stations.jpeg"};
 		for(int i = 0; i < api_images.Length; i++)
 		{
 			if (!File.Exists(api_images[i]))
