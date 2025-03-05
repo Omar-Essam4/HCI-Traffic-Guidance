@@ -35,6 +35,7 @@ using System.Diagnostics.Eventing.Reader;
 
 public class TuioDemo : Form , TuioListener
 	{
+		static string name = "";
 		private TuioClient client;
 		private Dictionary<long,TuioObject> objectList;
 		private Dictionary<long,TuioCursor> cursorList;
@@ -144,12 +145,13 @@ public class TuioDemo : Form , TuioListener
 			    NetworkStream serverStream = serverClient.GetStream();
 			    byte[] buffer = new byte[1024];
 			    int bytesRead;
-
 			    StringBuilder completeMessage = new StringBuilder();
+				name = completeMessage.ToString();
 			    while ((bytesRead = serverStream.Read(buffer, 0, buffer.Length)) != 0)  // Using Read instead of ReadAsync
 			    {
 
 			        completeMessage.Append(Encoding.ASCII.GetString(buffer, 0, bytesRead));
+				    
 					login = "Logged in Successfully Welcome " + completeMessage.ToString();
 					Console.WriteLine("Logged in Successfully");
 					MessageBox.Show("Logged in Successfully welcome " + completeMessage.ToString());
@@ -236,8 +238,21 @@ public class TuioDemo : Form , TuioListener
 			g.FillRectangle(bgrBrush, new Rectangle(0,0,width,height));
 		try
 		{
-			Bitmap img = new Bitmap("home.jpeg");
-            g.DrawImage(img, 0, 0, this.ClientSize.Width, this.ClientSize.Height);
+			Bitmap img;
+
+            if (name == "MARAWAN")
+			{
+				 img = new Bitmap("home.jpeg");
+			}
+			else if (name == "kholy")
+			{
+				img = new Bitmap("elk.jpg");
+			}
+			else
+			{
+                img = new Bitmap("no.jpg");
+            }
+			g.DrawImage(img, 0, 0, this.ClientSize.Width, this.ClientSize.Height);
             g.DrawString(login, font2, fntBrush, new PointF(0, 0));
         }
 		catch

@@ -42,8 +42,8 @@ async def scan_and_connect():
 
                 if addr == "BC:10:7B:F3:75:4F":
                     msg = b"MARAWAN"
-                elif addr == "5C:10:C5:FB:A8:98":
-                    msg = b"omar"
+                elif addr == "bc:6a:d1:b7:56:e9":
+                    msg = b"kholy"
 
                 conn.send(msg)
                 print("Message sent successfully")
