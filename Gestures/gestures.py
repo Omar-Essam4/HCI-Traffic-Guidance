@@ -1,14 +1,14 @@
 import pickle
-import mediapipe as mp # Import mediapipe
-import cv2 # Import opencv
+import mediapipe as mp  # Import mediapipe
+import cv2  # Import opencv
 from dollarpy import Recognizer, Point
 import socket
 import threading
 import time
 
-mp_drawing = mp.solutions.drawing_utils # Drawing helpers
+mp_drawing = mp.solutions.drawing_utils  # Drawing helpers
 mp_drawing_styles = mp.solutions.drawing_styles
-mp_holistic = mp.solutions.holistic # Mediapipe Solutions
+mp_holistic = mp.solutions.holistic  # Mediapipe Solutions
 
 # Load templates with pickle
 def load_templates(filename):
@@ -22,12 +22,18 @@ def load_templates(filename):
         return []
 
 mySocket = socket.socket()
-def connect_socket():
+conn = None  # Will hold the client connection
+
+def socket_thread():
     global conn, addr
-    mySocket.bind(('127.0.0.1', 3333))
-    mySocket.listen(5)
-    conn, addr = mySocket.accept()
-    print("Device connected")
+    try:
+        mySocket.bind(('127.0.0.1', 3333))
+        mySocket.listen(5)
+        print("Waiting for device to connect...")
+        conn, addr = mySocket.accept()
+        print("Device connected from", addr)
+    except Exception as e:
+        print(f"Socket error: {e}")
 
 templates = load_templates("templates.pkl")
 templates2 = load_templates("templates2.pkl")
@@ -35,13 +41,16 @@ templates2 = load_templates("templates2.pkl")
 recognizer = Recognizer(templates)
 recognizer2 = Recognizer(templates2)
 
-connect_socket()
-
 def testpoints():
-    cap = cv2.VideoCapture(0)  # Webcam = 0, else enter filename
+    print("testpoints thread started")
+    cap = cv2.VideoCapture(0)  # Webcam = 0
+
+    if not cap.isOpened():
+        print("Error: Camera could not be opened.")
+        return
 
     with mp_holistic.Holistic(min_detection_confidence=0.35, min_tracking_confidence=0.35) as holistic:
-        points_buffer = []  # Buffer to hold points for multiple frames
+        points_buffer = []
         gesture = "none"
         prevgesture = ""
 
@@ -68,13 +77,12 @@ def testpoints():
 
                 try:
                     if results.right_hand_landmarks:
-                        points = [
-                            Point(lm.x, lm.y, 1) for lm in results.right_hand_landmarks.landmark
-                        ]
+                        points = [Point(lm.x, lm.y, 1) for lm in results.right_hand_landmarks.landmark]
                         points_buffer.append(points)
 
                         if len(points_buffer) >= 12:
                             flattened_points = [pt for frame in points_buffer for pt in frame]
+
                             result1 = recognizer.recognize(flattened_points)
                             result2 = recognizer2.recognize(flattened_points)
 
@@ -85,8 +93,12 @@ def testpoints():
                             else:
                                 gesture = "Unknown"
 
-                            if gesture != prevgesture:
-                                conn.send(bytes(gesture.lower(), 'utf-8'))
+                            if gesture != prevgesture and conn:
+                                try:
+                                    conn.send(bytes(gesture.lower(), 'utf-8'))
+                                    print(f"Sent gesture: {gesture}")
+                                except Exception as send_err:
+                                    print(f"Send error: {send_err}")
                                 prevgesture = gesture
 
                             points_buffer.clear()
@@ -109,4 +121,9 @@ def testpoints():
         cap.release()
         cv2.destroyAllWindows()
 
+# Start socket server thread
+threading.Thread(target=socket_thread, daemon=True).start()
+
+# Start camera gesture recognition thread
 threading.Thread(target=testpoints).start()
+

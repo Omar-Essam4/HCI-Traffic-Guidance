@@ -146,7 +146,7 @@ public class TuioDemo : Form , TuioListener
 			    byte[] buffer = new byte[1024];
 			    int bytesRead;
 			    StringBuilder completeMessage = new StringBuilder();
-				name = completeMessage.ToString();
+			
 			    while ((bytesRead = serverStream.Read(buffer, 0, buffer.Length)) != 0)  // Using Read instead of ReadAsync
 			    {
 
@@ -156,7 +156,8 @@ public class TuioDemo : Form , TuioListener
 					Console.WriteLine("Logged in Successfully");
 					MessageBox.Show("Logged in Successfully welcome " + completeMessage.ToString());
 					TuioDemo app = Application.OpenForms["TuioDemo"] as TuioDemo;
-					app?.Invalidate();
+					 name = completeMessage.ToString();
+					 app?.Invalidate();
 				}				
 			}
 			catch(Exception ex) 

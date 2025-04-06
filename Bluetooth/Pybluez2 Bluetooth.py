@@ -16,7 +16,7 @@ def load_allowed_devices(file_path):
 def connect_socket():
     mySocket = socket.socket()
     mySocket.bind(('127.0.0.1', 3333))
-    mySocket.listen(5)
+    mySocket.listen(10)
     print("Waiting for client to connect")   
     conn, addr = mySocket.accept()
     print(f"Client successfully connected from {addr}")
@@ -42,7 +42,7 @@ async def scan_and_connect():
 
                 if addr == "BC:10:7B:F3:75:4F":
                     msg = b"MARAWAN"
-                elif addr == "bc:6a:d1:b7:56:e9":
+                elif addr == "D4:67:D3:EB:29:58":
                     msg = b"kholy"
 
                 conn.send(msg)

@@ -1,13 +1,13 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\mosta\\OneDrive\\Documents\\GitHub\\HCI-Traffic-Guidance\\gesture csharp\\",
+  "WorkspaceRootPath": "C:\\Users\\maraw\\OneDrive\\Documents\\GitHub\\HCI-Traffic-Guidance\\gesture csharp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6E2B79AF-B95B-4A1F-9708-71796C35546F}|new hci\\new hci.csproj|c:\\users\\mosta\\onedrive\\documents\\github\\hci-traffic-guidance\\gesture csharp\\new hci\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{6E2B79AF-B95B-4A1F-9708-71796C35546F}|new hci\\new hci.csproj|c:\\users\\maraw\\onedrive\\documents\\github\\hci-traffic-guidance\\gesture csharp\\new hci\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6E2B79AF-B95B-4A1F-9708-71796C35546F}|new hci\\new hci.csproj|solutionrelative:new hci\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6E2B79AF-B95B-4A1F-9708-71796C35546F}|new hci\\new hci.csproj|C:\\Users\\mosta\\OneDrive\\Documents\\GitHub\\HCI-Traffic-Guidance\\gesture csharp\\new hci\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{6E2B79AF-B95B-4A1F-9708-71796C35546F}|new hci\\new hci.csproj|C:\\Users\\maraw\\OneDrive\\Documents\\GitHub\\HCI-Traffic-Guidance\\gesture csharp\\new hci\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{6E2B79AF-B95B-4A1F-9708-71796C35546F}|new hci\\new hci.csproj|solutionrelative:new hci\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
@@ -24,11 +24,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Form1.cs",
-              "DocumentMoniker": "C:\\Users\\mosta\\OneDrive\\Documents\\GitHub\\HCI-Traffic-Guidance\\gesture csharp\\new hci\\Form1.cs",
+              "DocumentMoniker": "C:\\Users\\maraw\\OneDrive\\Documents\\GitHub\\HCI-Traffic-Guidance\\gesture csharp\\new hci\\Form1.cs",
               "RelativeDocumentMoniker": "new hci\\Form1.cs",
-              "ToolTip": "C:\\Users\\mosta\\OneDrive\\Documents\\GitHub\\HCI-Traffic-Guidance\\gesture csharp\\new hci\\Form1.cs",
+              "ToolTip": "C:\\Users\\maraw\\OneDrive\\Documents\\GitHub\\HCI-Traffic-Guidance\\gesture csharp\\new hci\\Form1.cs",
               "RelativeToolTip": "new hci\\Form1.cs",
-              "ViewState": "AgIAAFoAAAAAAAAAAAAUwHcAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAUwHcAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-06T15:26:06.989Z",
               "EditorCaption": ""
@@ -37,7 +37,7 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "Form1.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\mosta\\OneDrive\\Documents\\GitHub\\HCI-Traffic-Guidance\\gesture csharp\\new hci\\Form1.cs",
+              "DocumentMoniker": "C:\\Users\\maraw\\OneDrive\\Documents\\GitHub\\HCI-Traffic-Guidance\\gesture csharp\\new hci\\Form1.cs",
               "RelativeDocumentMoniker": "new hci\\Form1.cs",
               "ToolTip": "C:\\Users\\EGYPT_LAPTOP\\source\\repos\\new hci\\new hci\\Form1.cs [Design]*",
               "RelativeToolTip": "..\\..\\..\\..\\..\\..\\EGYPT_LAPTOP\\source\\repos\\new hci\\new hci\\Form1.cs [Design]*",
