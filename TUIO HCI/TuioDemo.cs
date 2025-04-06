@@ -276,107 +276,111 @@ public class TuioDemo : Form , TuioListener
 				}
 			}
 		}
-
+		if (login != "Please login")
+		{
 			// draw the objects
-			if (objectList.Count > 0) {
- 				lock(objectList) {
-					foreach (TuioObject tobj in objectList.Values) {
+			if (objectList.Count > 0)
+			{
+				lock (objectList)
+				{
+					foreach (TuioObject tobj in objectList.Values)
+					{
 						int ox = tobj.getScreenX(width);
 						int oy = tobj.getScreenY(height);
 						int size = height / 12;
-                    switch (tobj.SymbolID)
-                    {
-                        case 0:
-                            objectImagePath = Path.Combine(Environment.CurrentDirectory, "map.jpeg");
-                            backgroundImagePath = Path.Combine(Environment.CurrentDirectory, main_maps[map_index]);
-                            break;
-                        case 1:
-                            objectImagePath = Path.Combine(Environment.CurrentDirectory, "car2.jpeg");
-                            backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "cairo_traffic_map.png");
-                            break;
-                        case 2:
-                            objectImagePath = Path.Combine(Environment.CurrentDirectory, "bus.jpeg");
-                            backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "map_cairo_with_bus_stations.jpeg");
-                            break;
-						case 3:
-							objectImagePath = Path.Combine(Environment.CurrentDirectory, "train.jpeg");
-                            backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "map_cairo_with_train_stations.jpeg");
-							break;
-                        default:
-                            // Use default rectangle for other IDs
-                            g.FillRectangle(objBrush, new Rectangle(ox - size / 2, oy - size / 2, size, size));
-                            g.DrawString(tobj.SymbolID + "", font, fntBrush, new PointF(ox - 10, oy - 10));
-                            continue;
-                    }
+						switch (tobj.SymbolID)
+						{
+							case 0:
+								objectImagePath = Path.Combine(Environment.CurrentDirectory, "map.jpeg");
+								backgroundImagePath = Path.Combine(Environment.CurrentDirectory, main_maps[map_index]);
+								break;
+							case 1:
+								objectImagePath = Path.Combine(Environment.CurrentDirectory, "car2.jpeg");
+								backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "cairo_traffic_map.png");
+								break;
+							case 2:
+								objectImagePath = Path.Combine(Environment.CurrentDirectory, "bus.jpeg");
+								backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "map_cairo_with_bus_stations.jpeg");
+								break;
+							case 3:
+								objectImagePath = Path.Combine(Environment.CurrentDirectory, "train.jpeg");
+								backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "map_cairo_with_train_stations.jpeg");
+								break;
+							default:
+								// Use default rectangle for other IDs
+								g.FillRectangle(objBrush, new Rectangle(ox - size / 2, oy - size / 2, size, size));
+								g.DrawString(tobj.SymbolID + "", font, fntBrush, new PointF(ox - 10, oy - 10));
+								continue;
+						}
 
-                    try
-                    {
-                        // Draw background image without rotation
-                        if (File.Exists(backgroundImagePath))
-                        {
-                            using (Image bgImage = Image.FromFile(backgroundImagePath))
-                            {
-                                g.DrawImage(bgImage, new Rectangle(new Point(0, 0), new Size(width, height)));
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Background image not found: {backgroundImagePath}");
-                        }
-
-                        // Draw object image with rotation
-                        if (File.Exists(objectImagePath))
-                        {
-                            using (Image objectImage = Image.FromFile(objectImagePath))
-                            {
-                                // Save the current state of the graphics object
-                                GraphicsState state = g.Save();
-
-                                // Apply transformations for rotation
-                                g.TranslateTransform(ox, oy);
-                                g.RotateTransform((float)(tobj.Angle / Math.PI * 180.0f));
-                                g.TranslateTransform(-ox, -oy);
-								//Console.WriteLine(tobj.Angle / Math.PI * 180.0f);
-								double tui_angle = tobj.Angle / Math.PI * 180.0f;
-								if (true)
+						try
+						{
+							// Draw background image without rotation
+							if (File.Exists(backgroundImagePath))
+							{
+								using (Image bgImage = Image.FromFile(backgroundImagePath))
 								{
-									if (tui_angle > 45 && tui_angle <= 90 && map_index < 1)
-										map_index++;
-									if (tui_angle > 90 && tui_angle <= 135 && map_index < 2)
-										map_index++;
-                                    if (tui_angle > 135 && map_index < 3)
-                                        map_index++;
-
-                                    if (map_index == 3 && tui_angle >= 90 && tui_angle < 135)
-                                        map_index--;
-                                    if (map_index == 2 && tui_angle >= 45 && tui_angle < 90)
-										map_index--;
-                                    if (map_index == 3 && tui_angle < 45)
-                                        map_index = 0;
-                                    if (map_index == 1 && tui_angle >= 0 && tui_angle < 45)
-										map_index--;
+									g.DrawImage(bgImage, new Rectangle(new Point(0, 0), new Size(width, height)));
 								}
-                                // Draw the rotated object
-                                g.DrawImage(objectImage, new Rectangle(ox - size / 2, oy - size / 2, size, size));
+							}
+							else
+							{
+								Console.WriteLine($"Background image not found: {backgroundImagePath}");
+							}
 
-                                // Restore the graphics state
-                                g.Restore(state);
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine(tobj.Angle);
-                            Console.WriteLine($"Object image not found: {objectImagePath}");
-                            // Fall back to drawing a rectangle
-                            g.FillRectangle(objBrush, new Rectangle(ox - size / 2, oy - size / 2, size , size));
-                        }
-                    }
-					catch
-					{
-						MessageBox.Show("Error");
-					}
+							// Draw object image with rotation
+							if (File.Exists(objectImagePath))
+							{
+								using (Image objectImage = Image.FromFile(objectImagePath))
+								{
+									// Save the current state of the graphics object
+									GraphicsState state = g.Save();
 
-                        g.TranslateTransform(ox, oy);
+									// Apply transformations for rotation
+									g.TranslateTransform(ox, oy);
+									g.RotateTransform((float)(tobj.Angle / Math.PI * 180.0f));
+									g.TranslateTransform(-ox, -oy);
+									//Console.WriteLine(tobj.Angle / Math.PI * 180.0f);
+									double tui_angle = tobj.Angle / Math.PI * 180.0f;
+									if (true)
+									{
+										if (tui_angle > 45 && tui_angle <= 90 && map_index < 1)
+											map_index++;
+										if (tui_angle > 90 && tui_angle <= 135 && map_index < 2)
+											map_index++;
+										if (tui_angle > 135 && map_index < 3)
+											map_index++;
+
+										if (map_index == 3 && tui_angle >= 90 && tui_angle < 135)
+											map_index--;
+										if (map_index == 2 && tui_angle >= 45 && tui_angle < 90)
+											map_index--;
+										if (map_index == 3 && tui_angle < 45)
+											map_index = 0;
+										if (map_index == 1 && tui_angle >= 0 && tui_angle < 45)
+											map_index--;
+									}
+									// Draw the rotated object
+									g.DrawImage(objectImage, new Rectangle(ox - size / 2, oy - size / 2, size, size));
+
+									// Restore the graphics state
+									g.Restore(state);
+								}
+							}
+							else
+							{
+								Console.WriteLine(tobj.Angle);
+								Console.WriteLine($"Object image not found: {objectImagePath}");
+								// Fall back to drawing a rectangle
+								g.FillRectangle(objBrush, new Rectangle(ox - size / 2, oy - size / 2, size, size));
+							}
+						}
+						catch
+						{
+							MessageBox.Show("Error");
+						}
+
+						g.TranslateTransform(ox, oy);
 						g.RotateTransform((float)(tobj.Angle / Math.PI * 180.0f));
 						g.TranslateTransform(-ox, -oy);
 
@@ -390,6 +394,7 @@ public class TuioDemo : Form , TuioListener
 					}
 				}
 			}
+		}
 
 			// draw the blobs
 			if (blobList.Count > 0) {
