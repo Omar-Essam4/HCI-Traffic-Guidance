@@ -15,10 +15,10 @@ video_capture = cv2.VideoCapture(0)
 
 # Load known face image and encoding
 # abdelellah_image = face_recognition.load_image_file("C:\\Users\\Abdelelah Hazem\\Downloads\\Face Recognition (1)\\people//Abdelellah.jpg")
-abdelellah_image = face_recognition.load_image_file("C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\Face Recognition hci\\people\\Abdelellah.jpg")
-omar_image = face_recognition.load_image_file("C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\Face Recognition hci\\people\\Omar.jpg")
-mostafa_image = face_recognition.load_image_file("C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\Face Recognition hci\\people\\Mostafa.jpeg")
-abdelrahman_image = face_recognition.load_image_file("C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\Face Recognition hci\\people\\Abdelrahman.jpeg")
+abdelellah_image = face_recognition.load_image_file("C:\\Users\\maraw\\OneDrive\\Documents\\GitHub\\HCI-Traffic-Guidance\\Face Recognition hci\\people\\Abdelellah.jpg")
+omar_image = face_recognition.load_image_file("C:\\Users\\maraw\\OneDrive\\Documents\\GitHub\\HCI-Traffic-Guidance\\Face Recognition hci\\people\\Omar.jpg")
+mostafa_image = face_recognition.load_image_file("C:\\Users\\maraw\\OneDrive\\Documents\\GitHub\\HCI-Traffic-Guidance\\Face Recognition hci\\people\\Mostafa.jpeg")
+abdelrahman_image = face_recognition.load_image_file("C:\\Users\\maraw\\OneDrive\\Documents\\GitHub\\HCI-Traffic-Guidance\\Face Recognition hci\\people\\Abdelrahman.jpeg")
 
 abdelellah_face_encoding = face_recognition.face_encodings(abdelellah_image)[0]
 omar_face_encoding = face_recognition.face_encodings(omar_image)[0]
