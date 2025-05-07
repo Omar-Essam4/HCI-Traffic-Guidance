@@ -457,9 +457,68 @@ public class TuioDemo : Form , TuioListener
 		}
 		return true;
     }
+    public static async void StartGazeReceiver()
+    {
+        try
+        {
+            TcpListener listener = new TcpListener(System.Net.IPAddress.Parse("127.0.0.1"), 5555);
+            listener.Start();
+            Console.WriteLine("Gaze server started on port 5555");
+
+            while (true)
+            {
+                TcpClient client = await listener.AcceptTcpClientAsync();
+                _ = Task.Run(() => HandleGazeClient(client));
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error in Gaze Receiver: " + ex.Message);
+        }
+    }
+
+    private static void HandleGazeClient(TcpClient client)
+    {
+        NetworkStream stream = client.GetStream();
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+
+        while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) != 0)
+        {
+            string direction = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+            Console.WriteLine("Gaze Direction: " + direction);
+
+            TuioDemo app = Application.OpenForms["TuioDemo"] as TuioDemo;
+            if (app != null)
+            {
+                app.Invoke((MethodInvoker)(() =>
+                {
+                    switch (direction.Trim().ToLower())
+                    {
+                        case "left":
+                            MessageBox.Show("Gaze left Detected – trigger feature A");
+                            break;
+                        case "right":
+                            MessageBox.Show("Gaze right Detected – trigger feature A");
+                            break;
+                        case "up":
+                            MessageBox.Show("Gaze Up Detected – trigger feature A");
+                            break;
+                        case "down":
+                            MessageBox.Show("Gaze Down Detected – trigger feature B");
+                            break;
+                    }
+                    app.Invalidate();
+                }));
+            }
+        }
+        client.Close();
+    }
+
     public static async Task Main(String[] argv) {
 	 		int port = 3333;
 			Client_side("127.0.0.1", port);
+			StartGazeReceiver();
 			if (!CheckMaps())
 			{
 				MapBoxAPI map_api = new MapBoxAPI();
