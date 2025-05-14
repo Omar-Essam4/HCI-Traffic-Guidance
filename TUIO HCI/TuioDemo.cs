@@ -51,10 +51,10 @@ public class TuioDemo : Form , TuioListener
 
 		private bool fullscreen;
 		private bool verbose;
-		private string objectImagePath;
-		private string backgroundImagePath;
+		private static string objectImagePath;
+		private static string backgroundImagePath;
 		private static List<string> main_maps = new List<string>();
-		private int map_index = 0;
+		private static int map_index = 0;
 		private int serverPort = 3333;
 		private string serverHost = "127.0.0.1";
 
@@ -496,7 +496,8 @@ public class TuioDemo : Form , TuioListener
                     switch (direction.Trim().ToLower())
                     {
                         case "left":
-                            MessageBox.Show("Gaze left Detected – trigger feature A");
+                            objectImagePath = Path.Combine(Environment.CurrentDirectory, "map.jpeg");
+                            backgroundImagePath = Path.Combine(Environment.CurrentDirectory, main_maps[map_index]);
                             break;
                         case "right":
                             MessageBox.Show("Gaze right Detected – trigger feature A");
