@@ -31,6 +31,7 @@ using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Text;
 using System.Diagnostics.Eventing.Reader;
+using System.Runtime.CompilerServices;
 
 
 public class TuioDemo : Form , TuioListener
@@ -57,9 +58,14 @@ public class TuioDemo : Form , TuioListener
 		private static int map_index = 0;
 		private int serverPort = 3333;
 		private string serverHost = "127.0.0.1";
+    /// <summary>
+    /// /////
+    /// 
+    private Bitmap gazeImage = null;
+	 static int k = 0;
+    /// </summary>
 
-
-        Font font = new Font("Arial", 10.0f);
+    Font font = new Font("Arial", 10.0f);
 		Font font2 = new Font("Arial", 15.0f);
 		SolidBrush fntBrush = new SolidBrush(Color.White);
 		SolidBrush bgrBrush = new SolidBrush(Color.FromArgb(0,0,64));
@@ -253,7 +259,16 @@ public class TuioDemo : Form , TuioListener
 			{
                 img = new Bitmap("no.jpg");
             }
+
+
+
 			g.DrawImage(img, 0, 0, this.ClientSize.Width, this.ClientSize.Height);
+
+            if (gazeImage != null)
+            {
+                g.DrawImage(gazeImage, 0, 0, this.ClientSize.Width, this.ClientSize.Height); // Example position and size
+            }
+
             g.DrawString(login, font2, fntBrush, new PointF(0, 0));
         }
 		catch
@@ -289,97 +304,127 @@ public class TuioDemo : Form , TuioListener
 						int ox = tobj.getScreenX(width);
 						int oy = tobj.getScreenY(height);
 						int size = height / 12;
-						switch (tobj.SymbolID)
+						if (name == "MARAWAN")
 						{
-							case 0:
-								objectImagePath = Path.Combine(Environment.CurrentDirectory, "map.jpeg");
-								backgroundImagePath = Path.Combine(Environment.CurrentDirectory, main_maps[map_index]);
-								break;
-							case 1:
-								objectImagePath = Path.Combine(Environment.CurrentDirectory, "car2.jpeg");
-								backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "cairo_traffic_map.png");
-								break;
-							case 2:
-								objectImagePath = Path.Combine(Environment.CurrentDirectory, "bus.jpeg");
-								backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "map_cairo_with_bus_stations.jpeg");
-								break;
-							case 3:
-								objectImagePath = Path.Combine(Environment.CurrentDirectory, "train.jpeg");
-								backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "map_cairo_with_train_stations.jpeg");
-								break;
-							default:
-								// Use default rectangle for other IDs
-								g.FillRectangle(objBrush, new Rectangle(ox - size / 2, oy - size / 2, size, size));
-								g.DrawString(tobj.SymbolID + "", font, fntBrush, new PointF(ox - 10, oy - 10));
-								continue;
+							switch (tobj.SymbolID)
+							{
+
+								case 0:
+									objectImagePath = Path.Combine(Environment.CurrentDirectory, "map.jpeg");
+									backgroundImagePath = Path.Combine(Environment.CurrentDirectory, main_maps[map_index]);
+									break;
+								case 1:
+									objectImagePath = Path.Combine(Environment.CurrentDirectory, "car2.jpeg");
+									backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "cairo_traffic_map.png");
+									break;
+								case 2:
+									objectImagePath = Path.Combine(Environment.CurrentDirectory, "bus.jpeg");
+									backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "map_cairo_with_bus_stations.jpeg");
+									break;
+								case 3:
+									objectImagePath = Path.Combine(Environment.CurrentDirectory, "train.jpeg");
+									backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "map_cairo_with_train_stations.jpeg");
+									break;
+								default:
+									// Use default rectangle for other IDs
+									g.FillRectangle(objBrush, new Rectangle(ox - size / 2, oy - size / 2, size, size));
+									g.DrawString(tobj.SymbolID + "", font, fntBrush, new PointF(ox - 10, oy - 10));
+									continue;
+							}
 						}
-
-						try
+						else
 						{
-							// Draw background image without rotation
-							if (File.Exists(backgroundImagePath))
-							{
-								using (Image bgImage = Image.FromFile(backgroundImagePath))
-								{
-									g.DrawImage(bgImage, new Rectangle(new Point(0, 0), new Size(width, height)));
-								}
-							}
-							else
-							{
-								Console.WriteLine($"Background image not found: {backgroundImagePath}");
-							}
+                            switch (tobj.SymbolID)
+                            {
 
-							// Draw object image with rotation
-							if (File.Exists(objectImagePath))
-							{
-								using (Image objectImage = Image.FromFile(objectImagePath))
-								{
-									// Save the current state of the graphics object
-									GraphicsState state = g.Save();
+                                case 0:
+                                    objectImagePath = Path.Combine(Environment.CurrentDirectory, "map.jpeg");
+                                    backgroundImagePath = Path.Combine(Environment.CurrentDirectory, main_maps[map_index]);
+                                    break;
+                                case 1:
+                                    objectImagePath = Path.Combine(Environment.CurrentDirectory, "car2.jpeg");
+                                    backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "cairo_traffic_map.png");
+                                    break;
+                                case 2:
+									MessageBox.Show("you have no access");
+                                    break;
+                                case 3:
+                                    MessageBox.Show("you have no access");
+                                    break;
+                                default:
+                                    // Use default rectangle for other IDs
+                                    g.FillRectangle(objBrush, new Rectangle(ox - size / 2, oy - size / 2, size, size));
+                                    g.DrawString(tobj.SymbolID + "", font, fntBrush, new PointF(ox - 10, oy - 10));
+                                    continue;
+                            }
+                        }
 
-									// Apply transformations for rotation
-									g.TranslateTransform(ox, oy);
-									g.RotateTransform((float)(tobj.Angle / Math.PI * 180.0f));
-									g.TranslateTransform(-ox, -oy);
-									//Console.WriteLine(tobj.Angle / Math.PI * 180.0f);
-									double tui_angle = tobj.Angle / Math.PI * 180.0f;
-									if (true)
+							try
+							{
+								// Draw background image without rotation
+								if (File.Exists(backgroundImagePath))
+								{
+									using (Image bgImage = Image.FromFile(backgroundImagePath))
 									{
-										if (tui_angle > 45 && tui_angle <= 90 && map_index < 1)
-											map_index++;
-										if (tui_angle > 90 && tui_angle <= 135 && map_index < 2)
-											map_index++;
-										if (tui_angle > 135 && map_index < 3)
-											map_index++;
-
-										if (map_index == 3 && tui_angle >= 90 && tui_angle < 135)
-											map_index--;
-										if (map_index == 2 && tui_angle >= 45 && tui_angle < 90)
-											map_index--;
-										if (map_index == 3 && tui_angle < 45)
-											map_index = 0;
-										if (map_index == 1 && tui_angle >= 0 && tui_angle < 45)
-											map_index--;
+										g.DrawImage(bgImage, new Rectangle(new Point(0, 0), new Size(width, height)));
 									}
-									// Draw the rotated object
-									g.DrawImage(objectImage, new Rectangle(ox - size / 2, oy - size / 2, size, size));
+								}
+								else
+								{
+									Console.WriteLine($"Background image not found: {backgroundImagePath}");
+								}
 
-									// Restore the graphics state
-									g.Restore(state);
+								// Draw object image with rotation
+								if (File.Exists(objectImagePath))
+								{
+									using (Image objectImage = Image.FromFile(objectImagePath))
+									{
+										// Save the current state of the graphics object
+										GraphicsState state = g.Save();
+
+										// Apply transformations for rotation
+										g.TranslateTransform(ox, oy);
+										g.RotateTransform((float)(tobj.Angle / Math.PI * 180.0f));
+										g.TranslateTransform(-ox, -oy);
+										//Console.WriteLine(tobj.Angle / Math.PI * 180.0f);
+										double tui_angle = tobj.Angle / Math.PI * 180.0f;
+										if (true)
+										{
+											if (tui_angle > 45 && tui_angle <= 90 && map_index < 1)
+												map_index++;
+											if (tui_angle > 90 && tui_angle <= 135 && map_index < 2)
+												map_index++;
+											if (tui_angle > 135 && map_index < 3)
+												map_index++;
+
+											if (map_index == 3 && tui_angle >= 90 && tui_angle < 135)
+												map_index--;
+											if (map_index == 2 && tui_angle >= 45 && tui_angle < 90)
+												map_index--;
+											if (map_index == 3 && tui_angle < 45)
+												map_index = 0;
+											if (map_index == 1 && tui_angle >= 0 && tui_angle < 45)
+												map_index--;
+										}
+										// Draw the rotated object
+										g.DrawImage(objectImage, new Rectangle(ox - size / 2, oy - size / 2, size, size));
+
+										// Restore the graphics state
+										g.Restore(state);
+									}
+								}
+								else
+								{
+									Console.WriteLine(tobj.Angle);
+									Console.WriteLine($"Object image not found: {objectImagePath}");
+									// Fall back to drawing a rectangle
+									g.FillRectangle(objBrush, new Rectangle(ox - size / 2, oy - size / 2, size, size));
 								}
 							}
-							else
+							catch
 							{
-								Console.WriteLine(tobj.Angle);
-								Console.WriteLine($"Object image not found: {objectImagePath}");
-								// Fall back to drawing a rectangle
-								g.FillRectangle(objBrush, new Rectangle(ox - size / 2, oy - size / 2, size, size));
+								MessageBox.Show("Error");
 							}
-						}
-						catch
-						{
-							MessageBox.Show("Error");
-						}
 
 						g.TranslateTransform(ox, oy);
 						g.RotateTransform((float)(tobj.Angle / Math.PI * 180.0f));
@@ -479,10 +524,11 @@ public class TuioDemo : Form , TuioListener
 
     private static void HandleGazeClient(TcpClient client)
     {
+        //Graphics g;
         NetworkStream stream = client.GetStream();
         byte[] buffer = new byte[1024];
         int bytesRead;
-
+		Bitmap img;
         while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) != 0)
         {
             string direction = Encoding.ASCII.GetString(buffer, 0, bytesRead);
@@ -491,16 +537,27 @@ public class TuioDemo : Form , TuioListener
             TuioDemo app = Application.OpenForms["TuioDemo"] as TuioDemo;
             if (app != null)
             {
+
                 app.Invoke((MethodInvoker)(() =>
                 {
                     switch (direction.Trim().ToLower())
                     {
                         case "left":
-                            objectImagePath = Path.Combine(Environment.CurrentDirectory, "map.jpeg");
-                            backgroundImagePath = Path.Combine(Environment.CurrentDirectory, main_maps[map_index]);
+                            MessageBox.Show("Gaze left Detected – trigger feature A");
+							app.gazeImage = new Bitmap(main_maps[k]);//"map.jpeg");
+							if (k > 0)
+							{
+								k--;
+							}
                             break;
                         case "right":
                             MessageBox.Show("Gaze right Detected – trigger feature A");
+                            app.gazeImage = new Bitmap(main_maps[k]);//"map.jpeg");
+                            if (k < 3)
+                            {
+                                k++;
+                            }
+                            // app.gazeImage = new Bitmap("right_image.jpg"); // optional
                             break;
                         case "up":
                             MessageBox.Show("Gaze Up Detected – trigger feature A");
@@ -508,6 +565,16 @@ public class TuioDemo : Form , TuioListener
                         case "down":
                             MessageBox.Show("Gaze Down Detected – trigger feature B");
                             break;
+                        case "traffic":
+                            MessageBox.Show("traffic");
+                            app.gazeImage = new Bitmap("cairo_traffic_map.png");//"map.jpeg");
+                            
+                            break;
+                        case "bus":
+                            MessageBox.Show("bus");
+                            app.gazeImage = new Bitmap("map_cairo_with_bus_stations.jpeg");//"map.jpeg");
+                            break;
+
                     }
                     app.Invalidate();
                 }));

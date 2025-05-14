@@ -1,16 +1,12 @@
 import pickle
-import mediapipe as mp  # Import mediapipe
-import cv2  # Import opencv
+import mediapipe as mp
+import cv2
 from dollarpy import Recognizer, Point
 import socket
 import threading
 import time
 
-mp_drawing = mp.solutions.drawing_utils  # Drawing helpers
-mp_drawing_styles = mp.solutions.drawing_styles
-mp_holistic = mp.solutions.holistic  # Mediapipe Solutions
-
-# Load templates with pickle
+# === Load Gesture Templates ===
 def load_templates(filename):
     try:
         with open(filename, 'rb') as f:
@@ -21,109 +17,115 @@ def load_templates(filename):
         print("No templates found.")
         return []
 
-mySocket = socket.socket()
-conn = None  # Will hold the client connection
-
-def socket_thread():
-    global conn, addr
-    try:
-        mySocket.bind(('127.0.0.1', 3333))
-        mySocket.listen(5)
-        print("Waiting for device to connect...")
-        conn, addr = mySocket.accept()
-        print("Device connected from", addr)
-    except Exception as e:
-        print(f"Socket error: {e}")
-
 templates = load_templates("templates.pkl")
 templates2 = load_templates("templates2.pkl")
 
 recognizer = Recognizer(templates)
 recognizer2 = Recognizer(templates2)
 
+# === Socket Setup ===
+def connect_socket():
+    s = socket.socket()
+    s.connect(('127.0.0.1', 5555))
+    print("Connected to C# Gesture Receiver")
+    return s
+
+conn = None
+
+# === Mediapipe Setup ===
+mp_drawing = mp.solutions.drawing_utils
+mp_drawing_styles = mp.solutions.drawing_styles
+mp_holistic = mp.solutions.holistic
+
+# === Gesture Detection ===
 def testpoints():
-    print("testpoints thread started")
-    cap = cv2.VideoCapture(0)  # Webcam = 0
+    global conn
+    print("Gesture detection started")
+    cap = cv2.VideoCapture(0)
 
     if not cap.isOpened():
         print("Error: Camera could not be opened.")
         return
 
+    conn = connect_socket()
+
     with mp_holistic.Holistic(min_detection_confidence=0.35, min_tracking_confidence=0.35) as holistic:
         points_buffer = []
-        gesture = "none"
-        prevgesture = ""
+        last_gesture = None
 
         while cap.isOpened():
             ret, frame = cap.read()
+            if not ret:
+                break
 
-            if ret:
-                image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                image.flags.writeable = False
+            image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            image.flags.writeable = False
+            results = holistic.process(image)
+            image.flags.writeable = True
+            image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-                # Make detections
-                results = holistic.process(image)
+            gesture = "None"
 
-                # Recolor image back to BGR for rendering
-                image.flags.writeable = True
-                image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-
-                # Drawing landmarks if detected
-                if results.right_hand_landmarks:
-                    mp_drawing.draw_landmarks(image, results.right_hand_landmarks, mp_holistic.HAND_CONNECTIONS)
-
-                if results.left_hand_landmarks:
-                    mp_drawing.draw_landmarks(image, results.left_hand_landmarks, mp_holistic.HAND_CONNECTIONS)
+            if results.right_hand_landmarks:
+                mp_drawing.draw_landmarks(
+                    image, results.right_hand_landmarks, mp_holistic.HAND_CONNECTIONS
+                )
 
                 try:
-                    if results.right_hand_landmarks:
-                        points = [Point(lm.x, lm.y, 1) for lm in results.right_hand_landmarks.landmark]
-                        points_buffer.append(points)
+                    points = [Point(lm.x, lm.y, 1) for lm in results.right_hand_landmarks.landmark]
+                    points_buffer.append(points)
 
-                        if len(points_buffer) >= 12:
-                            flattened_points = [pt for frame in points_buffer for pt in frame]
+                    if len(points_buffer) >= 12:
+                        flat_points = [pt for frame in points_buffer for pt in frame]
 
-                            result1 = recognizer.recognize(flattened_points)
-                            result2 = recognizer2.recognize(flattened_points)
+                        result1 = recognizer.recognize(flat_points)
+                        result2 = recognizer2.recognize(flat_points)
 
-                            if result1[0]:
-                                gesture = result1[0]
-                            elif result2[0]:
-                                gesture = result2[0]
-                            else:
-                                gesture = "Unknown"
+                        gesture = result1[0] if result1[0] else result2[0] if result2[0] else "Unknown"
 
-                            if gesture != prevgesture and conn:
+                        if gesture != last_gesture:
+                            print(f"Gesture: {gesture}")
+                            if conn:
                                 try:
-                                    conn.send(bytes(gesture.lower(), 'utf-8'))
-                                    print(f"Sent gesture: {gesture}")
-                                except Exception as send_err:
-                                    print(f"Send error: {send_err}")
-                                prevgesture = gesture
+                                    conn.send(gesture.lower().encode())
+                                    print("Gesture sent.")
+                                except Exception as e:
+                                    print(f"Socket error: {e}. Reconnecting...")
+                                    try:
+                                        conn.close()
+                                    except:
+                                        pass
+                                    conn = connect_socket()
 
-                            points_buffer.clear()
+                            last_gesture = gesture
 
-                        cv2.putText(
-                            image, f"Gesture: {gesture}", (50, 50),
-                            cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA
-                        )
+                        points_buffer.clear()
+
                 except Exception as e:
-                    print(f"Error: {e}")
+                    print(f"Error processing gesture: {e}")
 
-                # Display the image
-                cv2.imshow('Gesture Recognition', image)
-            else:
-                break
+            if results.left_hand_landmarks:
+                mp_drawing.draw_landmarks(
+                    image, results.left_hand_landmarks, mp_holistic.HAND_CONNECTIONS
+                )
+
+            # Display gesture on screen
+            cv2.putText(
+                image, f"Gesture: {gesture}", (50, 50),
+                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2
+            )
+
+            # Show webcam image
+            cv2.imshow('Gesture Recognition', image)
 
             if cv2.waitKey(10) & 0xFF == ord('q'):
                 break
 
         cap.release()
         cv2.destroyAllWindows()
+        if conn:
+            conn.close()
 
-# Start socket server thread
-threading.Thread(target=socket_thread, daemon=True).start()
-
-# Start camera gesture recognition thread
-threading.Thread(target=testpoints).start()
-
+# === Run Gesture Detection ===
+if __name__ == "__main__":
+    testpoints()
