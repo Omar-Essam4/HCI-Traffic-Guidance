@@ -574,6 +574,14 @@ public class TuioDemo : Form , TuioListener
                             MessageBox.Show("bus");
                             app.gazeImage = new Bitmap("map_cairo_with_bus_stations.jpeg");//"map.jpeg");
                             break;
+                        case "train":
+                            MessageBox.Show("train");
+                            app.gazeImage = new Bitmap("map_cairo_with_train_stations.jpeg");//"map.jpeg");
+                            break;
+                        case "car":
+                            MessageBox.Show("car");
+                            app.gazeImage = new Bitmap("cairo_traffic_map.png");//"map.jpeg");
+                            break;
 
                     }
                     app.Invalidate();

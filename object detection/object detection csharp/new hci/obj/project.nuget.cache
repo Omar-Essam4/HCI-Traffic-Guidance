@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "Ue9cn1IoNg8=",
+  "dgSpecHash": "yTJ4YiuVTAA=",
   "success": true,
-  "projectFilePath": "C:\\Users\\omar3\\Downloads\\Compressed\\HCI-Traffic-Guidance\\object detection\\object detection csharp\\new hci\\new hci.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\maraw\\OneDrive\\Documents\\GitHub\\HCI-Traffic-Guidance\\object detection\\object detection csharp\\new hci\\new hci.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\maraw\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.36\\microsoft.windowsdesktop.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\maraw\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.36\\microsoft.netcore.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\maraw\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.36\\microsoft.aspnetcore.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\maraw\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.36\\microsoft.netcore.app.host.win-x64.6.0.36.nupkg.sha512"
+  ],
   "logs": []
 }
