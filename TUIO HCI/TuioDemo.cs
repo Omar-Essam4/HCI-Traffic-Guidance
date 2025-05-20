@@ -304,7 +304,7 @@ public class TuioDemo : Form , TuioListener
 						int ox = tobj.getScreenX(width);
 						int oy = tobj.getScreenY(height);
 						int size = height / 12;
-						if (name == "MARAWAN")
+						if (name == "marawan")
 						{
 							switch (tobj.SymbolID)
 							{
@@ -346,7 +346,7 @@ public class TuioDemo : Form , TuioListener
                                     backgroundImagePath = Path.Combine(Environment.CurrentDirectory, "cairo_traffic_map.png");
                                     break;
                                 case 2:
-									MessageBox.Show("you have no access");
+                                    MessageBox.Show("you have no access");
                                     break;
                                 case 3:
                                     MessageBox.Show("you have no access");
@@ -524,71 +524,74 @@ public class TuioDemo : Form , TuioListener
 
     private static void HandleGazeClient(TcpClient client)
     {
-        //Graphics g;
-        NetworkStream stream = client.GetStream();
-        byte[] buffer = new byte[1024];
-        int bytesRead;
-		Bitmap img;
-        while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) != 0)
-        {
-            string direction = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-            Console.WriteLine("Gaze Direction: " + direction);
+		if (login != "Please login")
+		{
+			//Graphics g;
+			NetworkStream stream = client.GetStream();
+			byte[] buffer = new byte[1024];
+			int bytesRead;
+			Bitmap img;
+			while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) != 0)
+			{
+				string direction = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+				Console.WriteLine("Gaze Direction: " + direction);
 
-            TuioDemo app = Application.OpenForms["TuioDemo"] as TuioDemo;
-            if (app != null)
-            {
+				TuioDemo app = Application.OpenForms["TuioDemo"] as TuioDemo;
+				if (app != null)
+				{
 
-                app.Invoke((MethodInvoker)(() =>
-                {
-                    switch (direction.Trim().ToLower())
-                    {
-                        case "left":
-                            MessageBox.Show("Gaze left Detected – trigger feature A");
-							app.gazeImage = new Bitmap(main_maps[k]);//"map.jpeg");
-							if (k > 0)
-							{
-								k--;
-							}
-                            break;
-                        case "right":
-                            MessageBox.Show("Gaze right Detected – trigger feature A");
-                            app.gazeImage = new Bitmap(main_maps[k]);//"map.jpeg");
-                            if (k < 3)
-                            {
-                                k++;
-                            }
-                            // app.gazeImage = new Bitmap("right_image.jpg"); // optional
-                            break;
-                        case "up":
-                            MessageBox.Show("Gaze Up Detected – trigger feature A");
-                            break;
-                        case "down":
-                            MessageBox.Show("Gaze Down Detected – trigger feature B");
-                            break;
-                        case "traffic":
-                            MessageBox.Show("traffic");
-                            app.gazeImage = new Bitmap("cairo_traffic_map.png");//"map.jpeg");
-                            
-                            break;
-                        case "bus":
-                            MessageBox.Show("bus");
-                            app.gazeImage = new Bitmap("map_cairo_with_bus_stations.jpeg");//"map.jpeg");
-                            break;
-                        case "train":
-                            MessageBox.Show("train");
-                            app.gazeImage = new Bitmap("map_cairo_with_train_stations.jpeg");//"map.jpeg");
-                            break;
-                        case "car":
-                            MessageBox.Show("car");
-                            app.gazeImage = new Bitmap("cairo_traffic_map.png");//"map.jpeg");
-                            break;
+					app.Invoke((MethodInvoker)(() =>
+					{
+						switch (direction.Trim().ToLower())
+						{
+							case "left":
+								MessageBox.Show("Gaze left Detected – trigger feature A");
+								app.gazeImage = new Bitmap(main_maps[k]);//"map.jpeg");
+								if (k > 0)
+								{
+									k--;
+								}
+								break;
+							case "right":
+								MessageBox.Show("Gaze right Detected – trigger feature A");
+								app.gazeImage = new Bitmap(main_maps[k]);//"map.jpeg");
+								if (k < 3)
+								{
+									k++;
+								}
+								// app.gazeImage = new Bitmap("right_image.jpg"); // optional
+								break;
+							case "up":
+								MessageBox.Show("Gaze Up Detected – trigger feature A");
+								break;
+							case "down":
+								MessageBox.Show("Gaze Down Detected – trigger feature B");
+								break;
+							case "traffic light":
+								MessageBox.Show("traffic light");
+								app.gazeImage = new Bitmap("cairo_traffic_map.png");//"map.jpeg");
 
-                    }
-                    app.Invalidate();
-                }));
-            }
-        }
-        client.Close();
+								break;
+							case "bus":
+								MessageBox.Show("bus");
+								app.gazeImage = new Bitmap("map_cairo_with_bus_stations.jpeg");//"map.jpeg");
+								break;
+							case "train":
+								MessageBox.Show("train");
+								app.gazeImage = new Bitmap("map_cairo_with_train_stations.jpeg");//"map.jpeg");
+								break;
+							case "car":
+								MessageBox.Show("car");
+								app.gazeImage = new Bitmap("cairo_map_12.png");//"map.jpeg");
+								break;
+
+						}
+						app.Invalidate();
+					}));
+				}
+			}
+			client.Close();
+		}
     }
 
     public static async Task Main(String[] argv) {
