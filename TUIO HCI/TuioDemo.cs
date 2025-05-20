@@ -584,8 +584,13 @@ public class TuioDemo : Form , TuioListener
 								MessageBox.Show("car");
 								app.gazeImage = new Bitmap("cairo_map_12.png");//"map.jpeg");
 								break;
+                            case "traffic":
+                                MessageBox.Show("traffic");
+                                app.gazeImage = new Bitmap("cairo_traffic_map.png");//"map.jpeg");
+                                break;
 
-						}
+
+                        }
 						app.Invalidate();
 					}));
 				}
